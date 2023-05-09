@@ -1,0 +1,127 @@
+html {
+  background: #282828;
+}
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: sans-serif;
+}
+a {
+  text-decoration: none;
+  color: lightblue;
+}
+nav {
+  text-align: center;
+  color: orangered;
+}
+
+
+.parent {
+  width: 50px;
+  aspect-ratio: 1;
+  background: lightblue;
+  border-radius: 50%;
+
+  position: relative;
+}
+
+.circle {
+  --size: 24px;
+  --offset: 0;
+
+  display: grid;
+  place-items: center;
+
+  position: absolute;
+  top: calc(var(--size) / 2);
+  left: calc(var(--size) / 2);
+  width: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: orangered;
+  transform:
+    translate(
+      calc(cos(var(--degrees)) * var(--offset)), 
+      calc(sin(var(--degrees)) * var(--offset))
+    );
+  transition: transform .3s ease-in-out, opacity 1s;
+  opacity: 0;
+  z-index: -1;
+}
+
+
+$total: 8;
+@for $i from 0 through $total {
+  .circle:nth-of-type(#{$i + 1}) {
+    --degrees: #{$i} * 360deg / #{$total};
+  }
+}
+
+.container {
+  width: calc($total * 5vw);
+  height: calc($total * 5vw);
+  
+  display: grid;
+  place-items: center;
+  z-index: 0;
+}
+.container:hover .circle{
+  --offset: 100px;
+  opacity: 1;
+}
+
+// not scss
+// .circle:nth-of-type(1) {
+//   --degrees: 0deg;
+// }
+// .circle:nth-of-type(2) {
+//   --degrees: 45deg;
+// }
+// .circle:nth-of-type(3) {
+//   --degrees: 90deg;
+// }
+// .circle:nth-of-type(4) {
+//   --degrees: 135deg;
+// }
+// .circle:nth-of-type(5) {
+//   --degrees: 180deg;
+// }
+// .circle:nth-of-type(6) {
+//   --degrees: 225deg;
+// }
+// .circle:nth-of-type(7) {
+//   --degrees: 270deg;
+// }
+// .circle:nth-of-type(8) {
+//   --degrees: 315deg;
+// }
+
+.line {
+  display: flex;
+  gap: 1rem;
+  border-radius: 50%;
+  max-width: 80vw;
+  position: relative;
+}
+
+.dot {
+  --size: 25px;
+  width: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: orangered;
+  animation: up-and-down 5s ease-in-out alternate infinite;
+}
+
+@keyframes up-and-down {
+  to {
+    transform: translateY(-300%);
+  }
+}
+
+@for $i from 1 through 12 {
+  .dot:nth-of-type(#{$i}) {
+    animation-delay: calc(1 * #{$i}s);
+  }
+}
